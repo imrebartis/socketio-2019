@@ -2,8 +2,19 @@
 
 <script>
   const socket = io("http://localhost:8000");
+  socket.on('connect', () => {
+    console.log(socket.id);
+  });
   socket.on("messageFromServer",(dataFromServer) => {
     console.log(dataFromServer);
-    socket.emit('dataToServer', {data: "data from client"})
+    socket.emit('dataToServer', {data: "data from client"});
   });
+
+  socket.on('ping', () => {
+    console.log('ping received from server');
+  })
+  socket.on('pong', (latency) => {
+    console.log(latency);
+    console.log('pong was sent to server');
+  })
 </script>
