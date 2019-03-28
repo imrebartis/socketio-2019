@@ -8,7 +8,10 @@ const expressServer = app.listen(8000);
 const io = socketio(expressServer);
 io.on("connection", socket => {
   socket.emit("messageFromServer", { data: "welcome to the socketio server" });
-  socket.on("dataToServer", (dataFromClient) => {
+  socket.on("dataToServer", dataFromClient => {
     console.log(dataFromClient);
+  });
+  socket.on("newMessageToServer", msg => {
+    io.emit('messageToClients', {text: msg.text});
   });
 });
